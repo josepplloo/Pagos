@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:p="http://primefaces.org/ui"
+xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<title><h:outputText value="#{msg.title}" /></title>
+<script name="jquery/jquery.js" library="primefaces"></script>
+</h:head>
+
+<h:body>
+<h:form>
+<h:commandButton action="#{payment.changeLanguage('')}" value="English" image="resources/eeuu.png" />
+<h:outputText value=" " />
+<h:commandButton action="#{payment.changeLanguage('es')}" value="Español" image="resources/spain.png" />
+</h:form>
+
+<h:form prependId="false">
+<h1>
+<h:outputText value="#{msg['card_details']}" />
+</h1>
+
+<h:panelGrid columns="3">
+<p:outputLabel value="#{msg.id}" for="id" />
+<p:inputText id="id" label="#{msg.id}"
+value="#{payment.id}" required="true">
+<f:attribute name="requiredMessage" value="#{msg.card_required}" />
+</p:inputText>
+<p:message for="id" styleClass="errormsg" />
+
+<p:outputLabel value="#{msg.name}" for="name" />
+<p:inputText id="name" label="#{msg.name}"
+value="#{payment.name}" required="true">
+<f:attribute name="requiredMessage" value="#{msg.name_required}" />
+</p:inputText>
+<p:message for="name" styleClass="errormsg" />
+
+<p:outputLabel value="#{msg.institution}" for="institution" />
+<p:inputText id="institution" label="#{msg.institution}"
+value="#{payment.institution}" required="true">
+<f:attribute name="requiredMessage" value="#{msg.institution_required}" />
+</p:inputText>
+<p:message for="institution" styleClass="errormsg" />
+
+<p:outputLabel value="#{msg.amount}" for="amount" />
+<p:inputText id="amount" label="#{msg.amount}"
+value="#{payment.amount}" required="true">
+<f:attribute name="requiredMessage" value="#{msg.amountvalid}" />
+<f:convertNumber minFractionDigits="2" />
+<f:validateDoubleRange minimum="100" maximum="50000" />
+</p:inputText>
+
+<p:message for="amount" styleClass="errormsg" />
+<p:outputLabel value="#{msg.creditCard}" for="card" />
+<p:inputText id="card" label="#{msg.creditCard}"
+value="#{payment.card}" required="true">
+<f:validateLength minimum="16" />
+<f:attribute name="requiredMessage" value="#{msg.card_required}" />
+</p:inputText>
+
+<p:message for="card" styleClass="errormsg" />
+<p:outputLabel value="#{msg.expiry_date}" for="date" />
+<p:calendar id="date" label="#{msg.expiry_date}" navigator="true" readonlyInput="true" showOn="button"
+value="#{payment.date}" pattern="MM/yyyy" required="true">
+</p:calendar>
+<p:message for="date" styleClass="errormsg" />
+
+<p:outputLabel value="#{msg.cvv_no}" for="cvv" />
+<p:inputText id="cvv" label="#{msg.cvv_no}" value="#{payment.cvvNo}"
+required="true">
+<f:validateLength minimum="3" />
+<f:attribute name="requiredMessage" value="#{msg.cvv_no_required}" />
+</p:inputText>
+
+<p:message for="cvv" styleClass="errormsg" />
+<p:outputLabel value="Contraseña" for="txtContrasenia"/>
+<p:password id="txtContrasenia" label="Contraseña" size="50" value="#{payment.contrasenia}"
+required="true" match="pwd2">
+<f:attribute name="requiredMessage" value="#{msg.ppw}" />
+</p:password>
+<p:message for="txtContrasenia" styleClass="errormsg"/>
+
+<p:outputLabel value="Repita contraseña" for="pwd2"/>
+<p:password id="pwd2" label="Repita contraseña" size="50"
+value="#{payment.txtContraseniaRepita}" required="true">
+<f:attribute name="requiredMessage" value="#{msg.ppw2}" />
+</p:password>
+<p:message for="pwd2" styleClass="errormsg"/>
+
+</h:panelGrid>
+
+<br/>
+
+<h2>Primefaces - Captcha</h2>
+
+<p:messages id="msg"/>
+<p:captcha id="captcha"></p:captcha>
+
+<br/>
+
+<p:commandButton value="Check" actionListener="#{captcha.check}" ajax="false"></p:commandButton>
+<p:commandButton id="x" value="Submit" actionListener="#{payment.guardar()}"
+disabled="#{payment.disable}" action="submit" update="@form:x" />
+<h:commandButton id="mybutton" binding="#{payment.mybutton}" value="validar"
+actionListener="#{payment.validar()}" />
+<h:message for="mybutton" />
+
+</h:form>
+
+
+
+</h:body>
+
+</html>
+
